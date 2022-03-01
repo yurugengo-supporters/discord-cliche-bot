@@ -1,0 +1,11 @@
+{
+    "build": { "dockerfile": "Dockerfile" },
+    "extensions": [
+        "ms-azuretools.vscode-docker",
+        "mikestead.dotenv",
+        "dbaeumer.vscode-eslint",
+        "ms-vscode.vscode-typescript-next",
+        "esbenp.prettier-vscode",
+        "tuttieee.emacs-mcx"
+    ],
+}
