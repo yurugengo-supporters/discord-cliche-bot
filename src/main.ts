@@ -10,7 +10,7 @@ const client = new Client({
   intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES'],
 });
 
-const githubWakeKeyword = '!ghinvite'
+const githubWakeKeyword = '!ghinvite';
 
 client.once('ready', () => {
   console.log('Ready!');
@@ -20,12 +20,12 @@ client.once('ready', () => {
 client.on('messageCreate', async (message: Message) => {
   if (message.author.bot) return;
   if (message.content.startsWith(githubWakeKeyword)) {
-    const userName = message.content.slice(githubWakeKeyword.length).trim()
+    const userName = message.content.slice(githubWakeKeyword.length).trim();
 
     message.channel.send(`Inviting ${userName}...`);
 
-    //TODO: Githubへの招待処理
+    // TODO: Githubへの招待処理
   }
 });
 
-client.login(process.env.TOKEN);
+client.login(process.env.DISCORD_TOKEN);
