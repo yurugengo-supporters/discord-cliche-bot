@@ -27,7 +27,7 @@ client.on('messageCreate', async (message: Message) => {
   if (message.content.startsWith(githubWakeKeyword)) {
     const userName = message.content.slice(githubWakeKeyword.length).trim();
 
-    message.channel.send(`Inviting ${userName}...`);
+    message.reply(`Inviting ${userName}...`);
 
     // TODO: Githubへの招待処理
     const invitedUserResponse = await octokit.request(
