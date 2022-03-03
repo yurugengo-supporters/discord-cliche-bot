@@ -8,7 +8,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const octokit = new Octokit({auth: process.env.GITHUB_TOKEN});
+const octokit = new Octokit({auth: process.env.GITHUB_PAT});
 
 
 const client = new Client({
