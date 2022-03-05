@@ -1,34 +1,26 @@
 import dotenv from 'dotenv';
-import fetch from 'node-fetch';
+import {SlashCommandBuilder} from '@discordjs/builders';
+import {REST} from '@discordjs/rest';
+import {Routes} from 'discord-api-types/v9';
 
 dotenv.config();
 
-const apiEndpoint = `https://discord.com/api/v8/applications/${process.env.BOT_CLIENT_ID}/commands`;
+const botClientId = `${process.env.BOT_CLIENT_ID}`;
 
-const commandData = {
-  'name': 'ghinvite',
-  'description': 'Githubアカウントにユーザを招待します',
-  'options': [{
-    'type': 3, // STRING
-    'name': 'github_username',
-    'description': 'githubに登録するユーザ名',
-    'required': true,
-  }],
-};
+const command = new SlashCommandBuilder()
+    .setName('ghinvite')
+    .setDescription('Githubアカウントにユーザを招待します')
+    .addStringOption((option) => option
+        .setName('github_username')
+        .setDescription('githubに登録するユーザ名')
+        .setRequired(true),
+    ).toJSON();
 
-export const registerCommand = async () => {
-  const response = await fetch(apiEndpoint, {
-    method: 'post',
-    body: JSON.stringify(commandData),
-    headers: {
-      'Authorization': 'Bot ' + process.env.DISCORD_TOKEN,
-      'Content-Type': 'application/json',
-    },
-  });
-  const json = await response.json();
 
-  console.log(json);
-};
+const rest = new REST({version: '9'})
+    .setToken(`${process.env.DISCORD_TOKEN}`);
 
-registerCommand();
+rest.post(Routes.applicationCommands(botClientId), {body: command})
+    .then(() => console.log('Successfully registered application commands.'))
+    .catch(console.error);
 
