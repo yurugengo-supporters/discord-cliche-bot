@@ -47,7 +47,6 @@ const inviteUser = async (userId: number) => {
 };
 
 const githubCommandName = 'ghinvite';
-const githubWakeKeyword = '!ghinvite';
 
 client.once('ready', () => {
   console.log('Ready!');
@@ -56,34 +55,31 @@ client.once('ready', () => {
 
 client.on('messageCreate', async (message: Message) => {
   if (message.author.bot) return;
-  if (message.content.startsWith(githubWakeKeyword)) {
-    const userName = message.content.slice(githubWakeKeyword.length).trim();
+});
+
+client.on('interactionCreate', async (interaction) => {
+  if (!interaction.isCommand()) return;
+  const {commandName} = interaction;
+
+  if (commandName === githubCommandName) {
+    const userName = interaction.options.getString('github_username');
+    if (!userName) return;
 
     const invitedUser = await fetchUserData(userName);
     if (!invitedUser) {
       console.log('invalid user');
-      message.reply(`${userName}は存在しないGithubアカウントです。`);
+      interaction.reply(`${userName}は存在しないGithubアカウントです。`);
       return;
     }
 
     const invitationResponse = await inviteUser(invitedUser?.id);
 
     if (!invitationResponse) {
-      message.reply(`${userName}の招待に失敗しました。すでにメンバーになっている可能性があります。`);
+      interaction.reply(`${userName}の招待に失敗しました。すでにメンバーになっている可能性があります。`);
       return;
     }
 
-    message.reply(`${userName}を組織に招待しました。`);
-  }
-});
-
-client.on('interactionCreate', async (interaction) => {
-  if (!interaction.isCommand()) return;
-
-  const {commandName} = interaction;
-
-  if (commandName === githubCommandName) {
-    await interaction.reply('Pong!');
+    interaction.reply(`${userName}を組織に招待しました。`);
   }
 });
 
