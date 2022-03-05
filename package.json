@@ -4,6 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
+    "register-command": "ts-node src/command_register.ts",
     "dev": "ts-node src/main.ts",
     "start": "node build/main.js",
     "build": "tsc -p ."
@@ -30,7 +31,9 @@
   "dependencies": {
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0",
-    "octokit": "^1.7.1"
+    "node-fetch": "^2.6.7",
+    "octokit": "^1.7.1",
+    "request": "^2.88.2"
   },
   "engines": {
     "node": ">=16.6.x"
