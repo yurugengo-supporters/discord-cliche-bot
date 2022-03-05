@@ -46,6 +46,7 @@ const inviteUser = async (userId: number) => {
   }
 };
 
+const githubCommandName = 'ghinvite';
 const githubWakeKeyword = '!ghinvite';
 
 client.once('ready', () => {
@@ -73,6 +74,16 @@ client.on('messageCreate', async (message: Message) => {
     }
 
     message.reply(`${userName}を組織に招待しました。`);
+  }
+});
+
+client.on('interactionCreate', async (interaction) => {
+  if (!interaction.isCommand()) return;
+
+  const {commandName} = interaction;
+
+  if (commandName === githubCommandName) {
+    await interaction.reply('Pong!');
   }
 });
 
