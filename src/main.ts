@@ -2,8 +2,20 @@ import {Message, Client} from 'discord.js';
 import {Octokit} from 'octokit';
 
 import dotenv from 'dotenv';
+import express from 'express';
 
 dotenv.config();
+
+const PORT = Number(parseInt(`${process.env.PORT}`)) || 8080;
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send('🎉 Hello TypeScript! 🎉');
+});
+
+export const server = app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`);
+});
 
 const octokit = new Octokit({auth: process.env.GITHUB_PAT});
 
