@@ -7,7 +7,12 @@
     "register-command": "ts-node src/command_register.ts",
     "dev": "ts-node src/main.ts",
     "start": "node build/main.js",
-    "build": "tsc -p ."
+    "build": "tsc -p .",
+    "test": "echo 'no test'",
+    "lint": "eslint ./src/*.ts",
+    "posttest": "npm run lint",
+    "gcp-build": "npm run build",
+    "deploy": "gcloud app deploy"
   },
   "repository": {
     "type": "git",
@@ -21,6 +26,8 @@
   },
   "homepage": "https://github.com/dairappa/discord-bot-sandbox#readme",
   "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^17.0.21",
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
     "eslint": "^8.10.0",
@@ -34,6 +41,7 @@
     "discord-api-types": "^0.27.3",
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0",
+    "express": "^4.17.3",
     "octokit": "^1.7.1",
     "request": "^2.88.2"
   },
