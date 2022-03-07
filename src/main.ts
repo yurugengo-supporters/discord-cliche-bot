@@ -6,11 +6,12 @@ import express from 'express';
 
 dotenv.config();
 
+// GAEがサーバーをリスンしていないとそもそもアプリとして認識してくれないので、ダミーのレスポンスを返すようにしておく
 const PORT = Number(parseInt(`${process.env.PORT}`)) || 8080;
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send('🎉 Hello TypeScript! 🎉');
+app.get('/', (_req, res) => {
+  res.send('🤖Bot is running!!🤖');
 });
 
 export const server = app.listen(PORT, () => {
