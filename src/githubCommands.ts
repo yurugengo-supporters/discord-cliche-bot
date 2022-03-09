@@ -1,7 +1,10 @@
 import {Octokit} from 'octokit';
 
-export const octokit = new Octokit({auth: process.env.GITHUB_PAT});
+let octokit: Octokit;
 
+export const authorizeToGithub = (accessToken: string) => {
+  octokit = new Octokit({auth: accessToken});
+};
 
 export const fetchUserData = async (userName: string) => {
   try {

@@ -2,9 +2,11 @@ import {Message, Client} from 'discord.js';
 import dotenv from 'dotenv';
 
 import {createDummyServer} from './dummyServer';
-import {fetchUserData, inviteUser} from './githubCommands';
+import {fetchUserData, authorizeToGithub, inviteUser} from './githubCommands';
 
 dotenv.config();
+
+authorizeToGithub(`${process.env.GITHUB_PAT}`);
 
 createDummyServer();
 
