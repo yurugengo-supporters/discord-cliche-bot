@@ -1,14 +1,17 @@
 import {Message, Client} from 'discord.js';
-import dotenv from 'dotenv';
 
 import {createDummyServer} from './dummyServer';
 import {fetchUserData, authorizeToGithub, inviteUser} from './githubCommands';
 
-dotenv.config();
+import {clicheBotConfig, networkConfig} from './configHandler';
+import {registerSlashCommands} from './commandRegister';
 
-authorizeToGithub(`${process.env.GITHUB_PAT}`);
+authorizeToGithub(clicheBotConfig.githubPat);
 
-createDummyServer();
+createDummyServer(networkConfig.port);
+
+registerSlashCommands(
+    clicheBotConfig.discordToken, clicheBotConfig.botClientId);
 
 const client = new Client({
   intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES'],
@@ -51,4 +54,4 @@ client.on('interactionCreate', async (interaction) => {
   }
 });
 
-client.login(process.env.DISCORD_TOKEN);
+client.login(clicheBotConfig.discordToken);
