@@ -16,15 +16,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dairappa/discord-bot-sandbox.git"
+    "url": "git+https://github.com/yurugengo-supporters/discord-bot-sandbox.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dairappa/discord-bot-sandbox/issues"
+    "url": "https://github.com/yurugengo-supporters/discord-bot-sandbox/issues"
   },
-  "homepage": "https://github.com/dairappa/discord-bot-sandbox#readme",
+  "homepage": "https://github.com/yurugengo-supporters/discord-bot-sandbox#readme",
   "devDependencies": {
     "@secretlint/secretlint-rule-preset-recommend": "^5.1.0",
     "@types/express": "^4.17.13",
