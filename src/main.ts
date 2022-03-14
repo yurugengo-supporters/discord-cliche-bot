@@ -1,4 +1,4 @@
-import {Message, Client, Interaction, CacheType, CommandInteraction} from 'discord.js';
+import {Message, Client, CacheType, CommandInteraction} from 'discord.js';
 
 import {createDummyServer} from './dummyServer';
 import {fetchUserData, authorizeToGithub, inviteUser} from './githubCommands';
