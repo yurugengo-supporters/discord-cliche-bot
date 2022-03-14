@@ -1,10 +1,10 @@
-import {Message, Client} from 'discord.js';
+import {Message, Client, Interaction, CacheType, CommandInteraction} from 'discord.js';
 
 import {createDummyServer} from './dummyServer';
 import {fetchUserData, authorizeToGithub, inviteUser} from './githubCommands';
 
 import {clicheBotConfig, networkConfig} from './configHandler';
-import {registerSlashCommands} from './commandRegister';
+import {githubCommand, registerSlashCommands} from './commandRegister';
 
 authorizeToGithub(clicheBotConfig.githubPat);
 
@@ -17,8 +17,6 @@ const client = new Client({
   intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES'],
 });
 
-const githubCommandName = 'ghinvite';
-
 client.once('ready', () => {
   console.log('Ready!');
   console.log(client.user?.tag ?? 'undefined user');
@@ -28,29 +26,34 @@ client.on('messageCreate', async (message: Message) => {
   if (message.author.bot) return;
 });
 
+const githubCommandProc = async (
+    interaction: CommandInteraction<CacheType>) => {
+  const userName = interaction.options.getString('github_username');
+  if (!userName) return;
+
+  const invitedUser = await fetchUserData(userName);
+  if (!invitedUser) {
+    console.log('invalid user');
+    interaction.reply(`${userName}は存在しないGithubアカウントです。`);
+    return;
+  }
+
+  const invitationResponse = await inviteUser(invitedUser?.id);
+
+  if (!invitationResponse) {
+    interaction.reply(`${userName}の招待に失敗しました。すでにメンバーになっている可能性があります。`);
+    return;
+  }
+
+  interaction.reply(`${userName}を組織に招待しました。`);
+};
+
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isCommand()) return;
   const {commandName} = interaction;
 
-  if (commandName === githubCommandName) {
-    const userName = interaction.options.getString('github_username');
-    if (!userName) return;
-
-    const invitedUser = await fetchUserData(userName);
-    if (!invitedUser) {
-      console.log('invalid user');
-      interaction.reply(`${userName}は存在しないGithubアカウントです。`);
-      return;
-    }
-
-    const invitationResponse = await inviteUser(invitedUser?.id);
-
-    if (!invitationResponse) {
-      interaction.reply(`${userName}の招待に失敗しました。すでにメンバーになっている可能性があります。`);
-      return;
-    }
-
-    interaction.reply(`${userName}を組織に招待しました。`);
+  if (commandName === githubCommand) {
+    githubCommandProc(interaction);
   }
 });
 

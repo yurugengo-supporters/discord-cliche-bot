@@ -2,8 +2,9 @@ import {SlashCommandBuilder} from '@discordjs/builders';
 import {REST} from '@discordjs/rest';
 import {Routes} from 'discord-api-types/v9';
 
+export const githubCommand = 'ghinvite';
 const command = new SlashCommandBuilder()
-    .setName('ghinvite')
+    .setName(githubCommand)
     .setDescription('Githubアカウントにユーザを招待します')
     .addStringOption((option) => option
         .setName('github_username')
