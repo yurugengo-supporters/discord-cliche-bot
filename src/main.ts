@@ -13,15 +13,9 @@ createDummyServer(networkConfig.port);
 registerSlashCommands(
     clicheBotConfig.discordToken, clicheBotConfig.botClientId);
 
-authorizeToGithub(`${process.env.GITHUB_PAT}`);
-
-createDummyServer();
-
 const client = new Client({
   intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES'],
 });
-
-const githubCommandName = 'ghinvite';
 
 client.once('ready', () => {
   console.log('Ready!');
