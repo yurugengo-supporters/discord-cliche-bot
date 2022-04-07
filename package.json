@@ -4,10 +4,11 @@
   "description": "",
   "main": "main.js",
   "scripts": {
+    "register-command": "ts-node src/command_register.ts",
     "dev": "ts-node src/main.ts",
     "start": "node build/main.js",
     "build": "tsc -p .",
-    "test": "jest",
+    "test": "echo 'no test'",
     "lint": "eslint ./src/*.ts",
     "posttest": "npm run lint",
     "gcp-build": "npm run build",
@@ -25,9 +26,7 @@
   },
   "homepage": "https://github.com/yurugengo-supporters/discord-bot-sandbox#readme",
   "devDependencies": {
-    "@secretlint/secretlint-rule-preset-recommend": "^5.1.0",
     "@types/express": "^4.17.13",
-    "@types/jest": "^27.4.1",
     "@types/node": "^17.0.21",
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
