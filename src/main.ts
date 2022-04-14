@@ -55,6 +55,9 @@ client.on('interactionCreate', async (interaction) => {
   if (commandName === githubCommand) {
     githubCommandProc(interaction);
   }
+
+  // eslint-disable-next-line max-len
+  console.log(`interaction occured on${interaction.guild?.name} : ${interaction.guildId}`);
 });
 
 client.login(clicheBotConfig.discordToken);
