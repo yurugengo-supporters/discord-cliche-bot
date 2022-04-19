@@ -6,6 +6,8 @@ import {fetchUserData, authorizeToGithub, inviteUser} from './githubCommands';
 import {clicheBotConfig, networkConfig} from './configHandler';
 import {githubCommand, registerSlashCommands} from './commandRegister';
 
+const LABO_GUILD_ID = '947390529145032724';
+
 authorizeToGithub(clicheBotConfig.githubPat);
 
 createDummyServer(networkConfig.port);
@@ -53,15 +55,21 @@ client.on('interactionCreate', async (interaction) => {
 
   // eslint-disable-next-line max-len
   console.log(`interaction occured on ${interaction.guild?.name} : ${interaction.guildId}`);
-  if (interaction.guildId == '947390529145032724') {
+  if (interaction.guildId === LABO_GUILD_ID) {
     console.log('You\'re on Yurugengo Labo');
   }
-
 
   const {commandName} = interaction;
 
   if (commandName === githubCommand) {
     githubCommandProc(interaction);
+  }
+});
+
+client.on('message', (message) => {
+  if (message.guildId === LABO_GUILD_ID) {
+    // メッセージにWikipediaのアドレスが含まれていたら
+    // タイトルと概要を展開する
   }
 });
 
