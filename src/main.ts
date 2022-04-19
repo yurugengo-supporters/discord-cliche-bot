@@ -52,7 +52,11 @@ client.on('interactionCreate', async (interaction) => {
   if (!interaction.isCommand()) return;
 
   // eslint-disable-next-line max-len
-  console.log(`interaction occured on${interaction.guild?.name} : ${interaction.guildId}`);
+  console.log(`interaction occured on ${interaction.guild?.name} : ${interaction.guildId}`);
+  if (interaction.guildId == '947390529145032724') {
+    console.log('You\'re on Yurugengo Labo');
+  }
+
 
   const {commandName} = interaction;
 
