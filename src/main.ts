@@ -5,6 +5,7 @@ import {fetchUserData, authorizeToGithub, inviteUser} from './githubCommands';
 
 import {clicheBotConfig, networkConfig} from './configHandler';
 import {githubCommand, registerSlashCommands} from './commandRegister';
+import {expandWikipediaUrl} from './wikipediaExpander';
 
 const LABO_GUILD_ID = '947390529145032724';
 
@@ -69,6 +70,12 @@ client.on('interactionCreate', async (interaction) => {
 client.on('message', (message) => {
   if (message.guildId === LABO_GUILD_ID) {
     // メッセージにWikipediaのアドレスが含まれていたら
+    const wikipediaUrlIndex = message.content.indexOf('https://ja.wikipedia.org/wiki/');
+    if (wikipediaUrlIndex < 0) {
+      return;
+    }
+
+    expandWikipediaUrl(message.content);
     // タイトルと概要を展開する
   }
 });
