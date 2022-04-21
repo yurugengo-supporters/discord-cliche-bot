@@ -1,6 +1,6 @@
 
-export default  {
-  preset: 'ts-jest/presets/default-esm',
+module.exports = {
+  'preset': 'ts-jest/presets/js-with-babel',
   'roots': [
     '<rootDir>/src',
   ],
@@ -8,9 +8,6 @@ export default  {
     '**/__tests__/**/*.+(ts|tsx|js)',
     '**/?(*.)+(spec|test).+(ts|tsx|js)',
   ],
-  globals: {
-    'ts-jest': {
-        useESM: true,
-    },
-  },
+  'transformIgnorePatterns': ['/node_modules/(?!get-urls)/'],
+
 };
