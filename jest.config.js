@@ -1,4 +1,6 @@
-module.exports = {
+
+export default  {
+  preset: 'ts-jest/presets/default-esm',
   'roots': [
     '<rootDir>/src',
   ],
@@ -6,7 +8,9 @@ module.exports = {
     '**/__tests__/**/*.+(ts|tsx|js)',
     '**/?(*.)+(spec|test).+(ts|tsx|js)',
   ],
-  'transform': {
-    '^.+\\.(ts|tsx)$': 'ts-jest',
+  globals: {
+    'ts-jest': {
+        useESM: true,
+    },
   },
 };
