@@ -18,6 +18,6 @@ describe('simple url', () => {
   });
 
   test('expand wikipedia data', () => {
-    expect(expandWikipediaUrlToData('オグリキャップ')?.title).toBe('オグリキャップ');
+    expect(expandWikipediaUrlToData(`オグリキャップ ${netkeibaUrl} ${wikipediaSiteSample}`)?.title).toBe('オグリキャップ');
   });
 });
