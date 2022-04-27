@@ -67,16 +67,17 @@ client.on('interactionCreate', async (interaction) => {
   }
 });
 
-client.on('message', (message) => {
+client.on('message', async (message) => {
   if (message.guildId === LABO_GUILD_ID) {
     // メッセージにWikipediaのアドレスが含まれていたら
     if (!existsWikipediaUrl(message.content)) {
       return;
     }
 
-    const summary = expandWikipediaUrlToData(message.content);
+    const summary = await expandWikipediaUrlToData(message.content);
     // タイトルと概要を展開する
     console.log(JSON.stringify(summary));
+    message.reply(JSON.stringify(summary))
   }
 });
 
