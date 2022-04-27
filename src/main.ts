@@ -81,6 +81,11 @@ client.on('message', async (message) => {
 
     message.reply({embeds: [
       {
+        author: {
+          name: 'Wikipedia',
+          url: summary.url,
+          icon_url: 'https://media.snl.no/media/36894/standard_Wikipedia-logo-v2.png',
+        },
         title: summary.title,
         url: summary.url,
         description: summary.summary,
