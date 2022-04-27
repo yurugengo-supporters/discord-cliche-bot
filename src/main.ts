@@ -75,20 +75,20 @@ client.on('message', async (message) => {
     }
 
     const summary = await expandWikipediaUrlToData(message.content);
-    if(!summary){
+    if (!summary) {
       return;
     }
 
-    message.reply({embeds:[
+    message.reply({embeds: [
       {
         title: summary.title,
         url: summary.url,
         description: summary.summary,
         image: {
-          url: summary.thumbnailUrl
-        }
-      }
-    ]})
+          url: summary.thumbnailUrl,
+        },
+      },
+    ]});
   }
 });
 

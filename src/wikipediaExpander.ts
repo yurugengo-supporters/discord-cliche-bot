@@ -29,8 +29,8 @@ export const expandWikipediaUrlToData = async (text: string) => {
   const summary = await wikipedia.summary(articleTitle);
 
   return {
-    title: summary.title, 
+    title: summary.title,
     url: wikipediaUrl,
     summary: summary.extract,
-     thumbnailUrl: summary.thumbnail.source};
+    thumbnailUrl: summary.thumbnail.source};
 };
