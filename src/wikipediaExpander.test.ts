@@ -17,7 +17,9 @@ describe('simple url', () => {
     expect(expandWikipediaUrl(`オグリキャップ ${netkeibaUrl} ${wikipediaSiteSample}`)).toBe(wikipediaSiteSample);
   });
 
-  test('expand wikipedia data', () => {
-    expect(expandWikipediaUrlToData(`オグリキャップ ${netkeibaUrl} ${wikipediaSiteSample}`)?.title).toBe('オグリキャップ');
+  test('expand wikipedia data', async () => {
+    const result = await expandWikipediaUrlToData(`オグリキャップ ${netkeibaUrl} ${wikipediaSiteSample}`);
+
+    expect(result?.title).toBe('オグリキャップ');
   });
 });

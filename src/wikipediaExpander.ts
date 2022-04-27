@@ -1,7 +1,10 @@
 import getUrls from 'get-urls';
-import wikipedia from 'wikipedia'
+import wikipedia from 'wikipedia';
 
 const wikipediaUrlPrefix = 'https://ja.wikipedia.org/wiki/';
+
+wikipedia.setLang('ja');
+
 export const expandWikipediaUrl: (text: string) => string | undefined = (text) => {
   for (const url of getUrls(text)) {
     if (url.startsWith(wikipediaUrlPrefix)) {
@@ -10,8 +13,7 @@ export const expandWikipediaUrl: (text: string) => string | undefined = (text) =
   }
 };
 
-export const expandWikipediaUrlToData: (text: string) =>
-{title: string, summary: string, thumbnailUrl:string} | undefined = (text) => {
+export const expandWikipediaUrlToData = async (text: string) => {
   const wikipediaUrl = expandWikipediaUrl(text);
 
   if (!wikipediaUrl) {
@@ -20,5 +22,7 @@ export const expandWikipediaUrlToData: (text: string) =>
 
   const articleTitle = decodeURI(wikipediaUrl).slice(wikipediaUrlPrefix.length);
 
-  return {title: articleTitle, summary: articleTitle, thumbnailUrl: articleTitle};
+  const summary = await wikipedia.summary(articleTitle);
+
+  return {title: summary.title, summary: summary.extract, thumbnailUrl: summary.thumbnail.source};
 };
