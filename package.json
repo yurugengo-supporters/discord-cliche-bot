@@ -6,7 +6,7 @@
   "scripts": {
     "register-command": "ts-node src/command_register.ts",
     "dev": "ts-node src/main.ts",
-    "start": "node build/main.js",
+    "start": "node build/src/main.js",
     "build": "tsc -p .",
     "test": "jest",
     "lint": "eslint ./src/*.ts",
