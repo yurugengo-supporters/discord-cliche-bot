@@ -48,6 +48,7 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "get-urls": "^11.0.0",
+    "node-fetch": "^3.2.3",
     "octokit": "^1.7.1",
     "request": "^2.88.2",
     "wikipedia": "^1.1.8"
