@@ -8,7 +8,7 @@
     "dev": "ts-node src/main.ts",
     "start": "node build/main.js",
     "build": "tsc -p .",
-    "test": "echo no test",
+    "test": "jest",
     "lint": "eslint ./src/*.ts",
     "posttest": "npm run lint",
     "gcp-build": "npm run build",

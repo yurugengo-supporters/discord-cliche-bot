@@ -1,6 +1,11 @@
 
 module.exports = {
-  'preset': 'ts-jest/presets/js-with-babel',
+  'globals': {
+    'ts-jest': {
+      'useESM': true,
+    },
+  },
+  'preset': 'ts-jest/presets/js-with-ts-esm',
   'roots': [
     '<rootDir>/src',
   ],
