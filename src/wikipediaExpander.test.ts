@@ -2,11 +2,17 @@ import {existsWikipediaUrl, expandWikipediaUrl, expandWikipediaUrlToData} from '
 
 // eslint-disable-next-line max-len
 const wikipediaSiteSample = 'https://ja.wikipedia.org/wiki/%E3%82%AA%E3%82%B0%E3%83%AA%E3%82%AD%E3%83%A3%E3%83%83%E3%83%97';
+// eslint-disable-next-line max-len
+const wikipediaMobileSiteSample = 'https://ja.m.wikipedia.org/wiki/%E3%82%AA%E3%82%B0%E3%83%AA%E3%82%AD%E3%83%A3%E3%83%83%E3%83%97';
 const netkeibaUrl = 'https://db.netkeiba.com/horse/1985102167/';
 
 describe('Wikipedia Expander', () => {
   test('simple url', () => {
     expect(expandWikipediaUrl(wikipediaSiteSample)).toBe(wikipediaSiteSample);
+  });
+
+  test('mobile url', () => {
+    expect(expandWikipediaUrl(wikipediaMobileSiteSample)).toBe(wikipediaSiteSample);
   });
 
   test('url in text', () => {
@@ -28,6 +34,12 @@ describe('Wikipedia Expander', () => {
 
   test('expand wikipedia data', async () => {
     const result = await expandWikipediaUrlToData(`オグリキャップ ${netkeibaUrl} ${wikipediaSiteSample}`);
+
+    expect(result?.title).toBe('オグリキャップ');
+  });
+
+  test('expand wikipedia mobile data', async () => {
+    const result = await expandWikipediaUrlToData(`オグリキャップ ${netkeibaUrl} ${wikipediaMobileSiteSample}`);
 
     expect(result?.title).toBe('オグリキャップ');
   });

@@ -11,8 +11,9 @@ export const existsWikipediaUrl: (text: string) => boolean = (text: string) => {
 
 export const expandWikipediaUrl: (text: string) => string | undefined = (text) => {
   for (const url of getUrls(text)) {
-    if (url.startsWith(wikipediaUrlPrefix)) {
-      return url;
+    const urlNormalized = url.replace('ja.m.wikipedia', 'ja.wikipedia');
+    if (urlNormalized.startsWith(wikipediaUrlPrefix)) {
+      return urlNormalized;
     }
   }
 };
