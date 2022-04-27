@@ -5,6 +5,10 @@ const wikipediaUrlPrefix = 'https://ja.wikipedia.org/wiki/';
 
 wikipedia.setLang('ja');
 
+export const existsWikipediaUrl: (text: string) => boolean = (text: string) => {
+  return !!expandWikipediaUrl(text);
+};
+
 export const expandWikipediaUrl: (text: string) => string | undefined = (text) => {
   for (const url of getUrls(text)) {
     if (url.startsWith(wikipediaUrlPrefix)) {
