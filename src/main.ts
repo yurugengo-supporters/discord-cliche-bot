@@ -75,9 +75,20 @@ client.on('message', async (message) => {
     }
 
     const summary = await expandWikipediaUrlToData(message.content);
-    // タイトルと概要を展開する
-    console.log(JSON.stringify(summary));
-    message.reply(JSON.stringify(summary))
+    if(!summary){
+      return;
+    }
+
+    message.reply({embeds:[
+      {
+        title: summary.title,
+        url: summary.url,
+        description: summary.summary,
+        image: {
+          url: summary.thumbnailUrl
+        }
+      }
+    ]})
   }
 });
 
