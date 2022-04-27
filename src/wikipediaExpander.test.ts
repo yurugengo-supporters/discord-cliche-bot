@@ -37,6 +37,14 @@ describe('Wikipedia Expander', () => {
     expect(await (existsWikipediaUrl(`オグリキャップ ${wikipediaSiteSample}`))).toBe(true);
   });
 
+  test('wikipedia Mobile URL', async () => {
+    expect(await (existsWikipediaUrl(`オグリキャップ ${wikipediaMobileSiteSample}`))).toBe(true);
+  });
+
+  test('wikipedia Redirect URL', async () => {
+    expect(await (existsWikipediaUrl(`オグリキャップ ${wikipediaRefirectedSample}`))).toBe(true);
+  });
+
   test('expand wikipedia data', async () => {
     const result = await expandWikipediaUrlToData(`オグリキャップ ${netkeibaUrl} ${wikipediaSiteSample}`);
 

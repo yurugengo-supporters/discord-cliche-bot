@@ -70,7 +70,7 @@ client.on('interactionCreate', async (interaction) => {
 client.on('message', async (message) => {
   if (message.guildId === LABO_GUILD_ID) {
     // メッセージにWikipediaのアドレスが含まれていたら
-    if (!existsWikipediaUrl(message.content)) {
+    if (!(await existsWikipediaUrl(message.content))) {
       return;
     }
 
