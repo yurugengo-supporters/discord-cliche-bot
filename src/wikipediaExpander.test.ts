@@ -9,27 +9,27 @@ const netkeibaUrl = 'https://db.netkeiba.com/horse/1985102167/';
 
 describe('Wikipedia Expander', () => {
   test('simple url', async () => {
-    expect(await (expandWikipediaUrl(wikipediaSiteSample))).toBe(wikipediaSiteSample);
+    expect((await expandWikipediaUrl(wikipediaSiteSample))[0]).toBe(wikipediaSiteSample);
   });
 
   test('redirected url', async () => {
-    expect(await (expandWikipediaUrl(wikipediaRefirectedSample))).toBe(wikipediaSiteSample);
+    expect((await expandWikipediaUrl(wikipediaRefirectedSample))[0]).toBe(wikipediaSiteSample);
   });
 
   test('mobile url', async () => {
-    expect(await (expandWikipediaUrl(wikipediaMobileSiteSample))).toBe(wikipediaSiteSample);
+    expect((await expandWikipediaUrl(wikipediaMobileSiteSample))[0]).toBe(wikipediaSiteSample);
   });
 
   test('url in text', async () => {
-    expect(await (expandWikipediaUrl(`オグリキャップ ${wikipediaSiteSample}`))).toBe(wikipediaSiteSample);
+    expect((await expandWikipediaUrl(`オグリキャップ ${wikipediaSiteSample}`))[0]).toBe(wikipediaSiteSample);
   });
 
   test('wikipedia URL and other URL', async () => {
-    expect(await (expandWikipediaUrl(`オグリキャップ ${netkeibaUrl} ${wikipediaSiteSample}`))).toBe(wikipediaSiteSample);
+    expect((await expandWikipediaUrl(`オグリキャップ ${netkeibaUrl} ${wikipediaSiteSample}`))[0]).toBe(wikipediaSiteSample);
   });
 
   test('not wikipedia URL', async () => {
-    expect(await (existsWikipediaUrl(`オグリキャップ ${netkeibaUrl}`))).toBe(false);
+    expect((await existsWikipediaUrl(`オグリキャップ ${netkeibaUrl}`))).toBe(false);
   });
 
 
@@ -48,12 +48,19 @@ describe('Wikipedia Expander', () => {
   test('expand wikipedia data', async () => {
     const result = await expandWikipediaUrlToData(`オグリキャップ ${netkeibaUrl} ${wikipediaSiteSample}`);
 
-    expect(result?.title).toBe('オグリキャップ');
+    expect(result?.at(0)?.title).toBe('オグリキャップ');
   });
 
   test('expand wikipedia mobile data', async () => {
     const result = await expandWikipediaUrlToData(`オグリキャップ ${netkeibaUrl} ${wikipediaMobileSiteSample}`);
 
-    expect(result?.title).toBe('オグリキャップ');
+    expect(result?.at(0)?.title).toBe('オグリキャップ');
+  });
+
+  test('expand wikipedia regular & mobile data', async () => {
+    const result = await expandWikipediaUrlToData(`オグリキャップ ${wikipediaSiteSample} ${wikipediaMobileSiteSample}`);
+
+    expect(result?.at(0)?.title).toBe('オグリキャップ');
+    expect(result?.at(1)?.title).toBe('オグリキャップ');
   });
 });

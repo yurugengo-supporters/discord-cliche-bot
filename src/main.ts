@@ -74,27 +74,26 @@ client.on('message', async (message) => {
       return;
     }
 
-    const summary = await expandWikipediaUrlToData(message.content);
-    if (!summary) {
+    const summaries = await expandWikipediaUrlToData(message.content);
+    if (!summaries || summaries.length === 0) {
       return;
     }
 
-    message.reply({embeds: [
-      {
-        author: {
-          name: 'Wikipedia',
-          url: summary.url,
-          icon_url: 'https://media.snl.no/media/36894/standard_Wikipedia-logo-v2.png',
-        },
-        title: summary.title,
-        url: summary.url,
-        description: summary.summary,
-        image: {
-          url: summary.thumbnailUrl,
-        },
+    message.reply({embeds: summaries.map((summary) => ({
+      author: {
+        name: 'Wikipedia',
+        url: summary.url.page,
+        icon_url: 'https://media.snl.no/media/36894/standard_Wikipedia-logo-v2.png',
       },
-    ]});
+      title: summary.title,
+      url: summary.url.page,
+      description: summary.summary,
+      image: {
+        url: summary.thumbnailUrl,
+      },
+    }))});
   }
 });
+
 
 client.login(clicheBotConfig.discordToken);

@@ -7,39 +7,39 @@ const wikipediaUrlPrefix = 'https://ja.wikipedia.org/wiki/';
 
 wikipedia.setLang('ja');
 
-export const existsWikipediaUrl: (text: string) => Promise<boolean> = async (text: string) => {
-  return !!(await expandWikipediaUrl(text));
+export const existsWikipediaUrl = async (text: string) => {
+  return (await expandWikipediaUrl(text)).length !== 0;
 };
 
-export const expandWikipediaUrl: (text: string) => Promise<string | undefined> = async (text) => {
-  for (const url of getUrls(text)) {
-    const urlNormalized = url.replace('ja.m.wikipedia', 'ja.wikipedia');
+export const expandWikipediaUrl = async (text: string) => {
+  const redirectedUrls = await Promise.all(
+      Array.from(getUrls(text))
+          .map((url) => url.replace('ja.m.wikipedia', 'ja.wikipedia'))
+          .map(async (url) => (await fetch(url, {method: 'GET'})).url));
 
-    const response = await fetch(urlNormalized, {method: 'GET'});
-    const finalUrl = response.url;
+  const filteredUrls = redirectedUrls.filter( (url) => url.startsWith(wikipediaUrlPrefix));
 
-    console.log(finalUrl);
-
-    if (finalUrl.startsWith(wikipediaUrlPrefix)) {
-      return finalUrl;
-    }
-  }
+  return filteredUrls;
 };
 
 export const expandWikipediaUrlToData = async (text: string) => {
-  const wikipediaUrl = await expandWikipediaUrl(text);
+  const wikipediaUrls = await expandWikipediaUrl(text);
 
-  if (!wikipediaUrl) {
+  if (!wikipediaUrls) {
     return undefined;
   }
 
-  const articleTitle = decodeURI(wikipediaUrl).slice(wikipediaUrlPrefix.length);
+  const summaries = await Promise.all(
+      wikipediaUrls.map(async (url) => {
+        const title = decodeURI(url).slice(wikipediaUrlPrefix.length);
+        return await wikipedia.summary(title);
+      },
+      ));
 
-  const summary = await wikipedia.summary(articleTitle);
-
-  return {
+  return summaries.map((summary) => ({
     title: summary.title,
-    url: wikipediaUrl,
+    url: summary.content_urls.desktop,
     summary: summary.extract,
-    thumbnailUrl: summary.thumbnail.source};
+    thumbnailUrl: summary.thumbnail.source,
+  }));
 };
