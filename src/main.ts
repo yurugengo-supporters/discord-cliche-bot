@@ -51,6 +51,31 @@ const githubCommandProc = async (
   interaction.reply(`${userName}を組織に招待しました。`);
 };
 
+const wikipediaCommandProc = async (message: Message) => {
+  if (!(await existsWikipediaUrl(message.content))) {
+    return;
+  }
+
+  const summaries = await expandWikipediaUrlToData(message.content);
+  if (!summaries || summaries.length === 0) {
+    return;
+  }
+
+  message.reply({embeds: summaries.map((summary) => ({
+    author: {
+      name: 'Wikipedia',
+      url: summary.url.page,
+      icon_url: 'https://media.snl.no/media/36894/standard_Wikipedia-logo-v2.png',
+    },
+    title: summary.title,
+    url: summary.url.page,
+    description: summary.summary,
+    image: {
+      url: summary.thumbnailUrl,
+    },
+  }))});
+};
+
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isCommand()) return;
 
@@ -69,28 +94,7 @@ client.on('interactionCreate', async (interaction) => {
 
 client.on('message', async (message) => {
   if (message.guildId === LABO_GUILD_ID) {
-    if (!(await existsWikipediaUrl(message.content))) {
-      return;
-    }
-
-    const summaries = await expandWikipediaUrlToData(message.content);
-    if (!summaries || summaries.length === 0) {
-      return;
-    }
-
-    message.reply({embeds: summaries.map((summary) => ({
-      author: {
-        name: 'Wikipedia',
-        url: summary.url.page,
-        icon_url: 'https://media.snl.no/media/36894/standard_Wikipedia-logo-v2.png',
-      },
-      title: summary.title,
-      url: summary.url.page,
-      description: summary.summary,
-      image: {
-        url: summary.thumbnailUrl,
-      },
-    }))});
+    await wikipediaCommandProc(message);
   }
 });
 
