@@ -6,6 +6,7 @@ const wikipediaSiteSample = 'https://ja.wikipedia.org/wiki/%E3%82%AA%E3%82%B0%E3
 const wikipediaMobileSiteSample = 'https://ja.m.wikipedia.org/wiki/%E3%82%AA%E3%82%B0%E3%83%AA%E3%82%AD%E3%83%A3%E3%83%83%E3%83%97';
 const wikipediaRefirectedSample = 'https://w.wiki/3CnA';
 const netkeibaUrl = 'https://db.netkeiba.com/horse/1985102167/';
+const wikipediaNoThumbnailSample = 'https://ja.wikipedia.org/wiki/%E5%A0%80%E5%85%83%E8%A6%8B';
 
 describe('Wikipedia Expander', () => {
   test('simple url', async () => {
@@ -55,6 +56,12 @@ describe('Wikipedia Expander', () => {
     const result = await expandWikipediaUrlToData(`オグリキャップ ${netkeibaUrl} ${wikipediaMobileSiteSample}`);
 
     expect(result?.at(0)?.title).toBe('オグリキャップ');
+  });
+
+  test('expand no thumbnail data', async () => {
+    const result = await expandWikipediaUrlToData(`オグリキャップ ${netkeibaUrl} ${wikipediaNoThumbnailSample}`);
+
+    expect(result?.at(0)?.title).toBe('堀元見');
   });
 
   test('expand wikipedia regular & mobile data', async () => {
