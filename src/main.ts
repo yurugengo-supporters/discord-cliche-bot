@@ -1,10 +1,13 @@
 import {Message, Client, CacheType, CommandInteraction} from 'discord.js';
 
-import {createDummyServer} from './dummyServer';
-import {fetchUserData, authorizeToGithub, inviteUser} from './githubCommands';
+import {createDummyServer} from './dummyServer.js';
+import {fetchUserData, authorizeToGithub, inviteUser} from './githubCommands.js';
 
-import {clicheBotConfig, networkConfig} from './configHandler';
-import {githubCommand, registerSlashCommands} from './commandRegister';
+import {clicheBotConfig, networkConfig} from './configHandler.js';
+import {githubCommand, registerSlashCommands} from './commandRegister.js';
+import {existsWikipediaUrl, expandWikipediaUrlToData} from './wikipediaExpander.js';
+
+const LABO_GUILD_ID = '947390529145032724';
 
 authorizeToGithub(clicheBotConfig.githubPat);
 
@@ -48,13 +51,53 @@ const githubCommandProc = async (
   interaction.reply(`${userName}を組織に招待しました。`);
 };
 
+const wikipediaCommandProc = async (message: Message) => {
+  if (!(await existsWikipediaUrl(message.content))) {
+    return;
+  }
+
+  const summaries = await expandWikipediaUrlToData(message.content);
+  if (!summaries || summaries.length === 0) {
+    return;
+  }
+
+  message.reply({embeds: summaries.map((summary) => ({
+    author: {
+      name: 'Wikipedia',
+      url: summary.url,
+      icon_url: 'https://media.snl.no/media/36894/standard_Wikipedia-logo-v2.png',
+    },
+    title: summary.title,
+    url: summary.url,
+    description: summary.summary,
+    image: {
+      url: summary.thumbnailUrl,
+    },
+  }))});
+};
+
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isCommand()) return;
+
+  // eslint-disable-next-line max-len
+  console.log(`interaction occured on ${interaction.guild?.name} : ${interaction.guildId}`);
+  if (interaction.guildId === LABO_GUILD_ID) {
+    console.log('You\'re on Yurugengo Labo');
+  }
+
   const {commandName} = interaction;
 
   if (commandName === githubCommand) {
     githubCommandProc(interaction);
   }
+});
+
+client.on('message', async (message) => {
+  if (message.guildId === LABO_GUILD_ID) {
+    // ここに実験用のコードを書く
+  }
+
+  await wikipediaCommandProc(message);
 });
 
 client.login(clicheBotConfig.discordToken);

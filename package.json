@@ -5,10 +5,9 @@
   "main": "main.js",
   "scripts": {
     "register-command": "ts-node src/command_register.ts",
-    "dev": "ts-node src/main.ts",
-    "start": "node build/main.js",
+    "start": "node build/src/main.js",
     "build": "tsc -p .",
-    "test": "echo 'no test'",
+    "test": "jest",
     "lint": "eslint ./src/*.ts",
     "posttest": "npm run lint",
     "gcp-build": "npm run build",
@@ -26,10 +25,12 @@
   },
   "homepage": "https://github.com/yurugengo-supporters/discord-bot-sandbox#readme",
   "devDependencies": {
+    "@babel/preset-env": "^7.16.11",
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.21",
     "@typescript-eslint/eslint-plugin": "^5.12.1",
     "@typescript-eslint/parser": "^5.12.1",
+    "babel-jest": "^27.5.1",
     "eslint": "^8.10.0",
     "eslint-config-google": "^0.14.0",
     "jest": "^27.5.1",
@@ -45,10 +46,14 @@
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "get-urls": "^11.0.0",
+    "node-fetch": "^3.2.3",
     "octokit": "^1.7.1",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "wikipedia": "^1.1.8"
   },
   "engines": {
     "node": ">=16.6.x"
-  }
+  },
+  "type": "module"
 }
