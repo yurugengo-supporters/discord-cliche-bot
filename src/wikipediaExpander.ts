@@ -38,7 +38,7 @@ export const expandWikipediaUrlToData = async (text: string) => {
 
   return summaries.map((summary) => ({
     title: summary.title,
-    url: summary.content_urls.desktop,
+    url: summary.content_urls.desktop.page,
     summary: summary.extract,
     thumbnailUrl: summary.thumbnail.source,
   }));

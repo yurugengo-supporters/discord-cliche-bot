@@ -64,11 +64,11 @@ const wikipediaCommandProc = async (message: Message) => {
   message.reply({embeds: summaries.map((summary) => ({
     author: {
       name: 'Wikipedia',
-      url: summary.url.page,
+      url: summary.url,
       icon_url: 'https://media.snl.no/media/36894/standard_Wikipedia-logo-v2.png',
     },
     title: summary.title,
-    url: summary.url.page,
+    url: summary.url,
     description: summary.summary,
     image: {
       url: summary.thumbnailUrl,
