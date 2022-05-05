@@ -94,8 +94,10 @@ client.on('interactionCreate', async (interaction) => {
 
 client.on('message', async (message) => {
   if (message.guildId === LABO_GUILD_ID) {
-    await wikipediaCommandProc(message);
+    // ここに実験用のコードを書く
   }
+
+  await wikipediaCommandProc(message);
 });
 
 client.login(clicheBotConfig.discordToken);
