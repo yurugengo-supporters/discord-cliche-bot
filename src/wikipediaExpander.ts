@@ -40,6 +40,6 @@ export const expandWikipediaUrlToData = async (text: string) => {
     title: summary.title,
     url: summary.content_urls.desktop.page,
     summary: summary.extract,
-    thumbnailUrl: summary.thumbnail.source,
+    thumbnailUrl: summary.thumbnail?.source,
   }));
 };

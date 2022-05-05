@@ -62,6 +62,7 @@ describe('Wikipedia Expander', () => {
     const result = await expandWikipediaUrlToData(`オグリキャップ ${netkeibaUrl} ${wikipediaNoThumbnailSample}`);
 
     expect(result?.at(0)?.title).toBe('堀元見');
+    expect(result?.at(0)?.thumbnailUrl).toBe(undefined);
   });
 
   test('expand wikipedia regular & mobile data', async () => {
