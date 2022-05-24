@@ -97,7 +97,7 @@ client.on('interactionCreate', async (interaction) => {
     const results = [...Array(diceNumber)].map(() => Math.floor(Math.random() * diceSide) + 1);
     const elementsStr = results.reduce((acc, item) => `${acc ? acc + ', ' : ''}${item}`, '');
     const elementsSum = results.reduce((acc, item) => acc + item, 0);
-    const message = `${elementsStr}: ${elementsSum}`;
+    const message = `${elementsStr} : ${elementsSum}`;
 
     interaction.reply(message);
   }
