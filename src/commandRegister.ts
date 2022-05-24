@@ -12,7 +12,7 @@ const inviteCommand = new SlashCommandBuilder()
         .setRequired(true),
     ).toJSON();
 
-export const rollDiceCommandName = 'rollDice';
+export const rollDiceCommandName = 'rolldice';
 const rollDiceCommand = new SlashCommandBuilder()
     .setName(rollDiceCommandName)
     .setDescription('指定した数のサイコロを振り、出目を出力します')
