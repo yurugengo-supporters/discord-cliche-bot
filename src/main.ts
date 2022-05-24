@@ -4,7 +4,7 @@ import {createDummyServer} from './dummyServer.js';
 import {fetchUserData, authorizeToGithub, inviteUser} from './githubCommands.js';
 
 import {clicheBotConfig, networkConfig} from './configHandler.js';
-import {githubCommandName, registerSlashCommands} from './commandRegister.js';
+import {githubCommandName, registerSlashCommands, rollDiceCommandName} from './commandRegister.js';
 import {existsWikipediaUrl, expandWikipediaUrlToData} from './wikipediaExpander.js';
 
 const LABO_GUILD_ID = '947390529145032724';
@@ -89,6 +89,17 @@ client.on('interactionCreate', async (interaction) => {
 
   if (commandName === githubCommandName) {
     githubCommandProc(interaction);
+  }
+
+  if (commandName === rollDiceCommandName) {
+    const diceNumber = interaction.options.getInteger('dice_number') ?? 4;
+    const diceSide = interaction.options.getInteger('dice_side') ?? 6;
+    const results = [...Array(diceNumber)].map(() => Math.floor(Math.random() * diceSide) + 1);
+    const elementsStr = results.reduce((acc, item) => `${acc ? acc + ', ' : ''}${item}`, '');
+    const elementsSum = results.reduce((acc, item) => acc + item, 0);
+    const message = `${elementsStr}: ${elementsSum}`;
+
+    interaction.reply(message);
   }
 });
 
