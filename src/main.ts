@@ -4,7 +4,7 @@ import {createDummyServer} from './dummyServer.js';
 import {fetchUserData, authorizeToGithub, inviteUser} from './githubCommands.js';
 
 import {clicheBotConfig, networkConfig} from './configHandler.js';
-import {githubCommand, registerSlashCommands} from './commandRegister.js';
+import {githubCommandName, registerSlashCommands} from './commandRegister.js';
 import {existsWikipediaUrl, expandWikipediaUrlToData} from './wikipediaExpander.js';
 
 const LABO_GUILD_ID = '947390529145032724';
@@ -87,7 +87,7 @@ client.on('interactionCreate', async (interaction) => {
 
   const {commandName} = interaction;
 
-  if (commandName === githubCommand) {
+  if (commandName === githubCommandName) {
     githubCommandProc(interaction);
   }
 });

@@ -2,15 +2,31 @@ import {SlashCommandBuilder} from '@discordjs/builders';
 import {REST} from '@discordjs/rest';
 import {Routes} from 'discord-api-types/v9';
 
-export const githubCommand = 'ghinvite';
-const command = new SlashCommandBuilder()
-    .setName(githubCommand)
+export const githubCommandName = 'ghinvite';
+const inviteCommand = new SlashCommandBuilder()
+    .setName(githubCommandName)
     .setDescription('Githubアカウントにユーザを招待します')
     .addStringOption((option) => option
         .setName('github_username')
         .setDescription('githubに登録するユーザ名')
         .setRequired(true),
     ).toJSON();
+
+export const rollDiceCommandName = 'rollDice';
+const rollDiceCommand = new SlashCommandBuilder()
+    .setName(rollDiceCommandName)
+    .setDescription('指定した数のサイコロを振り、出目を出力します')
+    .addIntegerOption((option) => option
+        .setName('dice_number')
+        .setDescription('サイコロの数。デフォルトは4')
+        .setRequired(false))
+    .addIntegerOption((option) => option
+        .setName('dice_side')
+        .setDescription('サイコロの面数。デフォルトは6')
+        .setRequired(false))
+
+    .toJSON();
+
 
 export const registerSlashCommands =
     async (discordToken: string, botClientId: string) => {
@@ -19,8 +35,17 @@ export const registerSlashCommands =
 
       try {
         const response = await rest.post(
-            Routes.applicationCommands(botClientId), {body: command});
-        console.log('Successfully registered application commands.');
+            Routes.applicationCommands(botClientId), {body: inviteCommand});
+        console.log('Successfully registered application commands: inviteCommand.');
+        console.log(JSON.stringify(response));
+      } catch (error) {
+        console.error(error);
+      }
+
+      try {
+        const response = await rest.post(
+            Routes.applicationCommands(botClientId), {body: rollDiceCommand});
+        console.log('Successfully registered application commands: rollDiceCommand.');
         console.log(JSON.stringify(response));
       } catch (error) {
         console.error(error);
