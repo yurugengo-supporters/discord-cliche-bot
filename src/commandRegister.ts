@@ -33,22 +33,15 @@ export const registerSlashCommands =
       const rest = new REST({version: '9'})
           .setToken(discordToken);
 
-      try {
-        const response = await rest.post(
-            Routes.applicationCommands(botClientId), {body: inviteCommand});
-        console.log('Successfully registered application commands: inviteCommand.');
-        console.log(JSON.stringify(response));
-      } catch (error) {
-        console.error(error);
-      }
-
-      try {
-        const response = await rest.post(
-            Routes.applicationCommands(botClientId), {body: rollDiceCommand});
-        console.log('Successfully registered application commands: rollDiceCommand.');
-        console.log(JSON.stringify(response));
-      } catch (error) {
-        console.error(error);
+      for (const command of [inviteCommand, rollDiceCommand]) {
+        try {
+          const response = await rest.post(
+              Routes.applicationCommands(botClientId), {body: command});
+          console.log(`Successfully registered application commands: ${command.name}.`);
+          console.log(JSON.stringify(response));
+        } catch (error) {
+          console.error(error);
+        }
       }
     };
 
