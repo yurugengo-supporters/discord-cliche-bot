@@ -24,8 +24,17 @@ const rollDiceCommand = new SlashCommandBuilder()
         .setName('dice_side')
         .setDescription('サイコロの面数。デフォルトは6')
         .setRequired(false))
-
     .toJSON();
+
+export const kotobankCommandName = 'kotobank';
+const kotobankCommand = new SlashCommandBuilder()
+    .setName(kotobankCommandName)
+    .setDescription('Githubアカウントにユーザを招待します')
+    .addStringOption((option) => option
+        .setName('word')
+        .setDescription('ことバンクで検索する単語')
+        .setRequired(true),
+    ).toJSON();
 
 
 export const registerSlashCommands =
@@ -33,7 +42,7 @@ export const registerSlashCommands =
       const rest = new REST({version: '9'})
           .setToken(discordToken);
 
-      for (const command of [inviteCommand, rollDiceCommand]) {
+      for (const command of [inviteCommand, rollDiceCommand, kotobankCommand]) {
         try {
           const response = await rest.post(
               Routes.applicationCommands(botClientId), {body: command});
