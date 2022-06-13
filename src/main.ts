@@ -110,14 +110,13 @@ client.on('interactionCreate', async (interaction) => {
     }
 
     const url = `https://kotobank.jp/word/${encodeURIComponent(searchWord)}`;
-    const response = await axios.get(url);
-
-    if (response.status !== 200) {
+    try {
+      await axios.get(url);
+      // エラーがなくこの行に到達する場合は場合はURLが存在すると思ってOK
+      interaction.reply(url);
+    } catch (e) {
       interaction.reply(`${searchWord}はコトバンクでは見つかりませんでした。`);
-      return;
     }
-
-    interaction.reply(url);
   }
 });
 
