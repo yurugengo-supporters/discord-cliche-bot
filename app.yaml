@@ -1,1 +1,3 @@
 runtime: nodejs16
+automatic_scaling:
+  min_instances: 1
