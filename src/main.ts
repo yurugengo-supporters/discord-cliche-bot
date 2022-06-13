@@ -4,7 +4,7 @@ import {createDummyServer} from './dummyServer.js';
 import {fetchUserData, authorizeToGithub, inviteUser} from './githubCommands.js';
 
 import {clicheBotConfig, networkConfig} from './configHandler.js';
-import {githubCommandName, registerSlashCommands, rollDiceCommandName} from './commandRegister.js';
+import {githubCommandName, kotobankCommandName, registerSlashCommands, rollDiceCommandName} from './commandRegister.js';
 import {existsWikipediaUrl, expandWikipediaUrlToData} from './wikipediaExpander.js';
 
 const LABO_GUILD_ID = '947390529145032724';
@@ -100,6 +100,14 @@ client.on('interactionCreate', async (interaction) => {
     const message = `${diceNumber}d${diceSide}\n ${elementsStr} : ${elementsSum}`;
 
     interaction.reply(message);
+  }
+
+  if (commandName === kotobankCommandName) {
+    const searchWord = interaction.options.getString('word');
+    if (!searchWord) {
+      interaction.reply('単語を指定してください。');
+      return;
+    }
   }
 });
 
