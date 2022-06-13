@@ -29,7 +29,7 @@ const rollDiceCommand = new SlashCommandBuilder()
 export const kotobankCommandName = 'kotobank';
 const kotobankCommand = new SlashCommandBuilder()
     .setName(kotobankCommandName)
-    .setDescription('Githubアカウントにユーザを招待します')
+    .setDescription('ことバンクの検索を行います')
     .addStringOption((option) => option
         .setName('word')
         .setDescription('ことバンクで検索する単語')
