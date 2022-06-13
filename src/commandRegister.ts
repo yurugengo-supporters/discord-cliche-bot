@@ -29,10 +29,10 @@ const rollDiceCommand = new SlashCommandBuilder()
 export const kotobankCommandName = 'kotobank';
 const kotobankCommand = new SlashCommandBuilder()
     .setName(kotobankCommandName)
-    .setDescription('ことバンクの検索を行います')
+    .setDescription('コトバンクの検索を行います')
     .addStringOption((option) => option
         .setName('word')
-        .setDescription('ことバンクで検索する単語')
+        .setDescription('コトバンクで検索する単語')
         .setRequired(true),
     ).toJSON();
 

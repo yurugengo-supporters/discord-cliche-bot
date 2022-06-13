@@ -113,7 +113,7 @@ client.on('interactionCreate', async (interaction) => {
     const response = await axios.get(url);
 
     if (response.status !== 200) {
-      interaction.reply('単語が見つかりませんでした。');
+      interaction.reply(`${searchWord}はコトバンクでは見つかりませんでした。`);
       return;
     }
 
