@@ -1,5 +1,5 @@
 import {Message, Client, CacheType, CommandInteraction} from 'discord.js';
-
+import {get} from 'axios';
 import {createDummyServer} from './dummyServer.js';
 import {fetchUserData, authorizeToGithub, inviteUser} from './githubCommands.js';
 
@@ -108,6 +108,16 @@ client.on('interactionCreate', async (interaction) => {
       interaction.reply('単語を指定してください。');
       return;
     }
+
+    const url = `https://kotobank.jp/word/${encodeURIComponent(searchWord)}`;
+    const response = await get(url);
+
+    if (response.status !== 200) {
+      interaction.reply('単語が見つかりませんでした。');
+      return;
+    }
+
+    interaction.reply(url);
   }
 });
 
