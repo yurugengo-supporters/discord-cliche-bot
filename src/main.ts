@@ -113,7 +113,7 @@ client.on('interactionCreate', async (interaction) => {
     try {
       await axios.get(url);
       // エラーがなくこの行に到達する場合は場合はURLが存在すると思ってOK
-      interaction.reply(url);
+      interaction.reply(`https://kotobank.jp/word/${searchWord}`);
     } catch (e) {
       interaction.reply(`${searchWord}はコトバンクでは見つかりませんでした。`);
     }
