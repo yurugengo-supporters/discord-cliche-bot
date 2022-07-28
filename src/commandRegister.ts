@@ -24,8 +24,17 @@ const rollDiceCommand = new SlashCommandBuilder()
         .setName('dice_side')
         .setDescription('サイコロの面数。デフォルトは6')
         .setRequired(false))
-
     .toJSON();
+
+export const kotobankCommandName = 'kotobank';
+const kotobankCommand = new SlashCommandBuilder()
+    .setName(kotobankCommandName)
+    .setDescription('コトバンクの検索を行います')
+    .addStringOption((option) => option
+        .setName('word')
+        .setDescription('コトバンクで検索する単語')
+        .setRequired(true),
+    ).toJSON();
 
 
 export const registerSlashCommands =
@@ -33,22 +42,15 @@ export const registerSlashCommands =
       const rest = new REST({version: '9'})
           .setToken(discordToken);
 
-      try {
-        const response = await rest.post(
-            Routes.applicationCommands(botClientId), {body: inviteCommand});
-        console.log('Successfully registered application commands: inviteCommand.');
-        console.log(JSON.stringify(response));
-      } catch (error) {
-        console.error(error);
-      }
-
-      try {
-        const response = await rest.post(
-            Routes.applicationCommands(botClientId), {body: rollDiceCommand});
-        console.log('Successfully registered application commands: rollDiceCommand.');
-        console.log(JSON.stringify(response));
-      } catch (error) {
-        console.error(error);
+      for (const command of [inviteCommand, rollDiceCommand, kotobankCommand]) {
+        try {
+          const response = await rest.post(
+              Routes.applicationCommands(botClientId), {body: command});
+          console.log(`Successfully registered application commands: ${command.name}.`);
+          console.log(JSON.stringify(response));
+        } catch (error) {
+          console.error(error);
+        }
       }
     };
 
