@@ -1,9 +1,10 @@
-import {CommandInteraction} from 'discord.js';
+// eslint-disable-next-line max-len
+import {ActionRowBuilder, ChatInputCommandInteraction, ModalBuilder, TextInputBuilder, TextInputStyle} from 'discord.js';
 import {setTimeout as wait} from 'node:timers/promises';
 
 
 // eslint-disable-next-line require-jsdoc
-function* generateQuiz(input: string): Generator<string, number, unknown> {
+export function* generateQuiz(input: string): Generator<string, number, unknown> {
   for (let index = 1; index <= input.length; index++) {
     yield input.substring(0, index);
   }
@@ -11,19 +12,17 @@ function* generateQuiz(input: string): Generator<string, number, unknown> {
   return input.length;
 }
 
-export const yuruquizProc = async (interaction: CommandInteraction) => {
-  const statement = interaction.options.getString('statement');
-  if (!statement || statement.length == 0) {
-    interaction.reply('問題文を指定してください。');
-    return;
-  }
+export const yuruquizProc = async (interaction: ChatInputCommandInteraction) => {
+  const modal = new ModalBuilder()
+      .setCustomId('statementModal')
+      .setTitle('Set Statement');
 
-  interaction.reply('問題です！！');
-  await wait(1000);
+  const statementInput = new TextInputBuilder()
+      .setCustomId('statement')
+      .setLabel('問題文を入力してください')
+      .setStyle(TextInputStyle.Paragraph);
+  const row = new ActionRowBuilder<TextInputBuilder>().addComponents(statementInput);
+  modal.addComponents(row);
 
-  for (const value of generateQuiz(statement)) {
-    interaction.editReply(value);
-
-    await wait(1000);
-  }
+  await interaction.showModal(modal);
 };

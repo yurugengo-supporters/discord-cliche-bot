@@ -1,4 +1,4 @@
-import {Message, Client, CacheType, CommandInteraction} from 'discord.js';
+import {Message, Client, CacheType, ChatInputCommandInteraction, GatewayIntentBits} from 'discord.js';
 import axios from 'axios';
 import {createDummyServer} from './dummyServer.js';
 import {fetchUserData, authorizeToGithub, inviteUser} from './githubCommands.js';
@@ -7,7 +7,9 @@ import {clicheBotConfig, networkConfig} from './configHandler.js';
 // eslint-disable-next-line max-len
 import {githubCommandName, kotobankCommandName, quizCommandName, registerSlashCommands, rollDiceCommandName} from './commandRegister.js';
 import {existsWikipediaUrl, expandWikipediaUrlToData} from './wikipediaExpander.js';
-import {yuruquizProc} from './generateQuiz.js';
+import {generateQuiz, yuruquizProc} from './generateQuiz.js';
+import {setTimeout as wait} from 'node:timers/promises';
+
 
 const LABO_GUILD_ID = '947390529145032724';
 
@@ -19,7 +21,7 @@ registerSlashCommands(
     clicheBotConfig.discordToken, clicheBotConfig.botClientId);
 
 const client = new Client({
-  intents: ['GUILDS', 'GUILD_MEMBERS', 'GUILD_MESSAGES'],
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages],
 });
 
 client.once('ready', () => {
@@ -32,7 +34,7 @@ client.on('messageCreate', async (message: Message) => {
 });
 
 const githubCommandProc = async (
-    interaction: CommandInteraction<CacheType>) => {
+    interaction: ChatInputCommandInteraction<CacheType>) => {
   const userName = interaction.options.getString('github_username');
   if (!userName) return;
 
@@ -80,7 +82,27 @@ const wikipediaCommandProc = async (message: Message) => {
 
 
 client.on('interactionCreate', async (interaction) => {
-  if (!interaction.isCommand()) return;
+  if (interaction.isModalSubmit()) {
+    if (interaction.customId == 'statementModal') {
+      const statement = interaction.fields.getTextInputValue('statement');
+
+      if (!statement || statement.length == 0) {
+        interaction.reply('問題文を指定してください。');
+        return;
+      }
+
+      interaction.reply('問題です！！');
+      await wait(1000);
+
+      for (const value of generateQuiz(statement)) {
+        interaction.editReply(value);
+
+        await wait(1000);
+      }
+    }
+  }
+
+  if (!interaction.isChatInputCommand()) return;
 
   const {commandName} = interaction;
 

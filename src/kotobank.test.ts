@@ -12,7 +12,7 @@ describe('kotobank', () => {
     const url = `https://kotobank.jp/word/${encodeURIComponent('ゆる言語学')}`;
 
     try {
-      const response = await axios.get(url);
+      await axios.get(url);
     } catch (e) {
       expect(e).toBeInstanceOf(AxiosError);
       if (e instanceof AxiosError) {
