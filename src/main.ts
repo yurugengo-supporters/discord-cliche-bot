@@ -97,7 +97,7 @@ client.on('interactionCreate', async (interaction) => {
 
       interaction.reply('問題です！！');
       await wait(1000);
-      for (let index = 1; index < statement.length; index++) {
+      for (let index = 1; index <= statement.length; index++) {
         interaction.editReply(statement.substring(0, index));
 
         await wait(1000);
