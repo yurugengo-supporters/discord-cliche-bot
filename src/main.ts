@@ -1,6 +1,5 @@
 import {Message, Client, CacheType, CommandInteraction} from 'discord.js';
 import axios from 'axios';
-import {setTimeout as wait} from 'node:timers/promises';
 import {createDummyServer} from './dummyServer.js';
 import {fetchUserData, authorizeToGithub, inviteUser} from './githubCommands.js';
 
@@ -8,7 +7,7 @@ import {clicheBotConfig, networkConfig} from './configHandler.js';
 // eslint-disable-next-line max-len
 import {githubCommandName, kotobankCommandName, quizCommandName, registerSlashCommands, rollDiceCommandName} from './commandRegister.js';
 import {existsWikipediaUrl, expandWikipediaUrlToData} from './wikipediaExpander.js';
-import { generateQuiz } from './generateQuiz';
+import {yuruquizProc} from './generateQuiz.js';
 
 const LABO_GUILD_ID = '947390529145032724';
 
@@ -97,20 +96,7 @@ client.on('interactionCreate', async (interaction) => {
   }
 
   if (commandName === quizCommandName) {
-    const statement = interaction.options.getString('statement');
-    if (!statement || statement.length == 0) {
-      interaction.reply('問題文を指定してください。');
-      return;
-    }
-
-    interaction.reply('問題です！！');
-    await wait(1000);
-
-    for (const value of generateQuiz(statement)) {
-      interaction.editReply(value);
-
-      await wait(1000);
-    }
+    yuruquizProc(interaction);
   }
 
   if (commandName === rollDiceCommandName) {
