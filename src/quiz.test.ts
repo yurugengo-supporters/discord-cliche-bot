@@ -1,4 +1,3 @@
-import axios, {AxiosError} from 'axios';
 
 describe('quiz', () => {
   test('substr', async () => {
