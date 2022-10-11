@@ -8,6 +8,7 @@ import {clicheBotConfig, networkConfig} from './configHandler.js';
 // eslint-disable-next-line max-len
 import {githubCommandName, kotobankCommandName, quizCommandName, registerSlashCommands, rollDiceCommandName} from './commandRegister.js';
 import {existsWikipediaUrl, expandWikipediaUrlToData} from './wikipediaExpander.js';
+import { generateQuiz } from './generateQuiz';
 
 const LABO_GUILD_ID = '947390529145032724';
 
@@ -78,6 +79,7 @@ const wikipediaCommandProc = async (message: Message) => {
   }))});
 };
 
+
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isCommand()) return;
 
@@ -97,8 +99,9 @@ client.on('interactionCreate', async (interaction) => {
 
       interaction.reply('問題です！！');
       await wait(1000);
-      for (let index = 1; index <= statement.length; index++) {
-        interaction.editReply(statement.substring(0, index));
+
+      for (const value of generateQuiz(statement)) {
+        interaction.editReply(value);
 
         await wait(1000);
       }
