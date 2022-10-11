@@ -89,28 +89,28 @@ client.on('interactionCreate', async (interaction) => {
   console.log(`interaction occured on ${interaction.guild?.name} : ${interaction.guildId}`);
   if (interaction.guildId === LABO_GUILD_ID) {
     console.log('You\'re on Yurugengo Labo');
-
-    if (commandName === quizCommandName) {
-      const statement = interaction.options.getString('statement');
-      if (!statement || statement.length == 0) {
-        interaction.reply('問題文を指定してください。');
-        return;
-      }
-
-      interaction.reply('問題です！！');
-      await wait(1000);
-
-      for (const value of generateQuiz(statement)) {
-        interaction.editReply(value);
-
-        await wait(1000);
-      }
-    }
   }
 
 
   if (commandName === githubCommandName) {
     githubCommandProc(interaction);
+  }
+
+  if (commandName === quizCommandName) {
+    const statement = interaction.options.getString('statement');
+    if (!statement || statement.length == 0) {
+      interaction.reply('問題文を指定してください。');
+      return;
+    }
+
+    interaction.reply('問題です！！');
+    await wait(1000);
+
+    for (const value of generateQuiz(statement)) {
+      interaction.editReply(value);
+
+      await wait(1000);
+    }
   }
 
   if (commandName === rollDiceCommandName) {
