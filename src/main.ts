@@ -90,12 +90,12 @@ client.on('interactionCreate', async (interaction) => {
 
     if (commandName === quizCommandName) {
       const statement = interaction.options.getString('statement');
-      if (!statement) {
+      if (!statement || statement.length == 0) {
         interaction.reply('問題文を指定してください。');
         return;
       }
 
-      for (let index = 0; index < statement.length; index++) {
+      for (let index = 1; index < statement.length; index++) {
         interaction.reply(statement.substring(0, index));
 
         await wait(1000);
