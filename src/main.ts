@@ -1,10 +1,12 @@
 import {Message, Client, CacheType, CommandInteraction} from 'discord.js';
 import axios from 'axios';
+import {setTimeout as wait} from 'node:timers/promises';
 import {createDummyServer} from './dummyServer.js';
 import {fetchUserData, authorizeToGithub, inviteUser} from './githubCommands.js';
 
 import {clicheBotConfig, networkConfig} from './configHandler.js';
-import {githubCommandName, kotobankCommandName, registerSlashCommands, rollDiceCommandName} from './commandRegister.js';
+// eslint-disable-next-line max-len
+import {githubCommandName, kotobankCommandName, quizCommandName, registerSlashCommands, rollDiceCommandName} from './commandRegister.js';
 import {existsWikipediaUrl, expandWikipediaUrlToData} from './wikipediaExpander.js';
 
 const LABO_GUILD_ID = '947390529145032724';
@@ -79,13 +81,28 @@ const wikipediaCommandProc = async (message: Message) => {
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isCommand()) return;
 
+  const {commandName} = interaction;
+
   // eslint-disable-next-line max-len
   console.log(`interaction occured on ${interaction.guild?.name} : ${interaction.guildId}`);
   if (interaction.guildId === LABO_GUILD_ID) {
     console.log('You\'re on Yurugengo Labo');
+
+    if (commandName === quizCommandName) {
+      const statement = interaction.options.getString('statement');
+      if (!statement) {
+        interaction.reply('問題文を指定してください。');
+        return;
+      }
+
+      for (let index = 0; index < statement.length; index++) {
+        interaction.reply(statement.substring(0, index));
+
+        await wait(1000);
+      }
+    }
   }
 
-  const {commandName} = interaction;
 
   if (commandName === githubCommandName) {
     githubCommandProc(interaction);
