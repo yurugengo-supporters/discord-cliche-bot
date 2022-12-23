@@ -58,6 +58,16 @@ const gojizeCommand = new SlashCommandBuilder()
     )
     .toJSON();
 
+export const ungojizeCommandName = 'ungojize';
+const ungojizeCommand = new SlashCommandBuilder()
+    .setName(gojizeCommandName)
+    .setDescription('逆誤字化します')
+    .addStringOption((option) => option
+        .setName('src')
+        .setDescription('誤字文')
+        .setRequired(true),
+    )
+    .toJSON();
 
 export const registerSlashCommands =
     async (discordToken: string, botClientId: string) => {

@@ -5,11 +5,11 @@ import {fetchUserData, authorizeToGithub, inviteUser} from './githubCommands.js'
 
 import {clicheBotConfig, networkConfig} from './configHandler.js';
 // eslint-disable-next-line max-len
-import {githubCommandName, gojizeCommandName, kotobankCommandName, quizCommandName, registerSlashCommands, rollDiceCommandName} from './commandRegister.js';
+import {githubCommandName, gojizeCommandName, kotobankCommandName, quizCommandName, registerSlashCommands, rollDiceCommandName, ungojizeCommandName} from './commandRegister.js';
 import {existsWikipediaUrl, expandWikipediaUrlToData} from './wikipediaExpander.js';
 import {generateQuiz, yuruquizProc} from './generateQuiz.js';
 import {setTimeout as wait} from 'node:timers/promises';
-import { gojize } from './gojize.js';
+import { gojize, ungojize } from './gojize.js';
 
 
 const LABO_GUILD_ID = '947390529145032724';
@@ -153,6 +153,11 @@ client.on('interactionCreate', async (interaction) => {
   if (commandName === gojizeCommandName) {
     const src = interaction.options.getString('src');
     interaction.reply(`${src} =gojize=> ${gojize(src ?? '')}`);
+  }
+
+  if (commandName === ungojizeCommandName) {
+    const src = interaction.options.getString('src');
+    interaction.reply(`${src} =ungojize=> ${ungojize(src ?? '')}`);
   }
 });
 
