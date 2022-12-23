@@ -74,7 +74,8 @@ export const registerSlashCommands =
       const rest = new REST({version: '9'})
           .setToken(discordToken);
 
-      for (const command of [inviteCommand, rollDiceCommand, kotobankCommand, quizCommand, gojizeCommand]) {
+      // eslint-disable-next-line max-len
+      for (const command of [inviteCommand, rollDiceCommand, kotobankCommand, quizCommand, gojizeCommand, ungojizeCommand]) {
         try {
           const response = await rest.post(
               Routes.applicationCommands(botClientId), {body: command});
