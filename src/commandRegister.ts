@@ -60,7 +60,7 @@ const gojizeCommand = new SlashCommandBuilder()
 
 export const ungojizeCommandName = 'ungojize';
 const ungojizeCommand = new SlashCommandBuilder()
-    .setName(gojizeCommandName)
+    .setName(ungojizeCommandName)
     .setDescription('逆誤字化します')
     .addStringOption((option) => option
         .setName('src')
