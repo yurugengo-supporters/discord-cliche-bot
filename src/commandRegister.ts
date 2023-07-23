@@ -47,13 +47,35 @@ const quizCommand = new SlashCommandBuilder()
     )
     .toJSON();
 
+export const gojizeCommandName = 'gojize';
+const gojizeCommand = new SlashCommandBuilder()
+    .setName(gojizeCommandName)
+    .setDescription('誤字化します')
+    .addStringOption((option) => option
+        .setName('src')
+        .setDescription('元文')
+        .setRequired(true),
+    )
+    .toJSON();
+
+export const ungojizeCommandName = 'ungojize';
+const ungojizeCommand = new SlashCommandBuilder()
+    .setName(ungojizeCommandName)
+    .setDescription('逆誤字化します')
+    .addStringOption((option) => option
+        .setName('src')
+        .setDescription('誤字文')
+        .setRequired(true),
+    )
+    .toJSON();
 
 export const registerSlashCommands =
     async (discordToken: string, botClientId: string) => {
       const rest = new REST({version: '9'})
           .setToken(discordToken);
 
-      for (const command of [inviteCommand, rollDiceCommand, kotobankCommand, quizCommand]) {
+      // eslint-disable-next-line max-len
+      for (const command of [inviteCommand, rollDiceCommand, kotobankCommand, quizCommand, gojizeCommand, ungojizeCommand]) {
         try {
           const response = await rest.post(
               Routes.applicationCommands(botClientId), {body: command});
