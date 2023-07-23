@@ -36,13 +36,24 @@ const kotobankCommand = new SlashCommandBuilder()
         .setRequired(true),
     ).toJSON();
 
+export const quizCommandName = 'yuruquiz';
+const quizCommand = new SlashCommandBuilder()
+    .setName(quizCommandName)
+    .setDescription('クイズを出題します')
+    .addStringOption((option) => option
+        .setName('statement')
+        .setDescription('問題文')
+        .setRequired(true),
+    )
+    .toJSON();
+
 
 export const registerSlashCommands =
     async (discordToken: string, botClientId: string) => {
       const rest = new REST({version: '9'})
           .setToken(discordToken);
 
-      for (const command of [inviteCommand, rollDiceCommand, kotobankCommand]) {
+      for (const command of [inviteCommand, rollDiceCommand, kotobankCommand, quizCommand]) {
         try {
           const response = await rest.post(
               Routes.applicationCommands(botClientId), {body: command});
